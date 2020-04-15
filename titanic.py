@@ -34,3 +34,35 @@ predictions = logisticRegression.predict(X_test)
 accuracy = (91+50)/(91+50+9+29)
 
 print(accuracy)
+
+
+
+
+
+
+# -----submission------
+
+test.drop(['Cabin','Name','Ticket'], axis = 1, inplace = True)
+
+test.loc[test.Age.isnull(), 'Age'] =  test.groupby("Pclass").Age.transform('median')
+test.loc[test.Fare.isnull(), 'Fare'] =  mode(test.Fare)
+
+
+test['Sex'][test['Sex']== 'male'] = 0
+test['Sex'][test['Sex'] == 'female'] = 1
+
+test['Embarked'][test['Embarked'] == 'S'] = 0
+test['Embarked'][test['Embarked'] =='C'] = 1
+test["Embarked"][test["Embarked"] == "Q"] = 2
+
+logisticRegression = LogisticRegression(max_iter = 10000, solver='lbfgs')
+logisticRegression.fit(X = train.drop('Survived', axis =1),y = train['Survived'])
+test['Survived'] = logisticRegression.predict(test)
+test[['PassengerId', 'Survived']].to_csv('kaggle_submission1.csv', index = False)
+
+# ------------------------------
+
+
+
+
+
