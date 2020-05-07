@@ -194,4 +194,39 @@ test['Survived'] = randomForestFinalModel.predict(test.drop(['PassengerId'], axi
 test[['PassengerId', 'Survived']].to_csv('kagglesubmission3.csv', index = False)
 
 
+****---Using different Modles and comparing the results---**
+logisticRegression = LogisticRegression(max_iter = 10000, random_state=2)
+logisticRegression.fit(X_train,y_train)
+predictions = logisticRegression.predict(X_test)
+
+print(accuracy_score(y_test,predictions))
+# print(classification_report(y_test,predictions))
+
+kneighborsclassifier = KNeighborsClassifier(n_neighbors=6)
+kneighborsclassifier.fit(X_train,y_train)
+predictions = kneighborsclassifier.predict(X_test)
+print(accuracy_score(y_test,predictions))
+# print(classification_report(y_test,predictions))
+
+svm = SVC(kernel='linear',random_state=2)
+svm.fit(X_train,y_train)
+predictions = svm.predict(X_test)
+print(accuracy_score(y_test,predictions))
+
+svm = SVC(kernel='rbf',random_state=2)
+svm.fit(X_train,y_train)
+predictions = svm.predict(X_test)
+print(accuracy_score(y_test,predictions))
+
+svm = SVC(random_state=2)
+svm.fit(X_train,y_train)
+predictions = svm.predict(X_test)
+print(accuracy_score(y_test,predictions))
+
+randomForest = RandomForestClassifier(random_state = 2)
+randomForest.fit(X_train,y_train)
+predictions = randomForest.predict(X_test)
+print(accuracy_score(y_test,predictions))
+
+***-- got high accuracy in random forest --**
 
